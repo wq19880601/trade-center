@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ww</groupId>
+    <artifactId>tc-client</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>com.ww</groupId>
+        <artifactId>trade-center</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <name>tc-client</name>
+    <description>some service about upsource code review</description>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <scala.version>2.12.3</scala.version>
+        <finatra.version>18.2.0</finatra.version>
+        <finagle.version>18.2.0</finagle.version>
+        <scrooge.version>18.2.0</scrooge.version>
+        <quill.version>2.3.2</quill.version>
+        <scala.artifactVersion>2.12</scala.artifactVersion>
+    </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>finagle-thrift_${scala.artifactVersion}</artifactId>
+            <version>${finagle.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>scrooge-core_${scala.artifactVersion}</artifactId>
+            <version>${scrooge.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.twitter</groupId>
+                <artifactId>scrooge-maven-plugin</artifactId>
+                <version>${scrooge.version}</version>
+                <configuration>
+<!--                    <thriftNamespaceMappings>
+                        <thriftNamespaceMapping>
+                            <from>com.twitter.demo</from>
+                            <to>com.twitter.mydemo.renamed</to>
+                        </thriftNamespaceMapping>
+                    </thriftNamespaceMappings>-->
+                    <language>scala</language> <!-- default is scala -->
+                    <thriftOpts>
+                        <!-- add other Scrooge command line options using thriftOpts -->
+                        <thriftOpt>--finagle</thriftOpt>
+                    </thriftOpts>
+                    <!-- tell scrooge to not to build the extracted thrift files (defaults to true) -->
+                    <buildExtractedThrift>true</buildExtractedThrift>
+                    <outputDirectory>${basedir}/src/main/scala</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>thrift-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>thrift-test-sources</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
